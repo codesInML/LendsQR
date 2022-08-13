@@ -5,6 +5,9 @@ export async function up(knex: Knex): Promise<void> {
     table.increments("id").primary();
     table.string("accountNumber").notNullable().unique();
     table.string("balance").notNullable().defaultTo("0");
+    table.string("type").notNullable();
+    table.string("currency").notNullable();
+    table.string("passcode").notNullable();
     table.timestamps(true, true, true);
     table.integer("userID").unsigned().unique().references("user.id");
   });

@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { createUser, findUser } from "../services";
+import { createUserService, findUser } from "../services";
 import { generateJWT, Password, successResponse } from "../helpers";
 import { BadRequestError } from "../errors";
-import Logger from "../logger";
 
 // @desc    Login Users
 // @route   POST    /api/v1/auth/signin
@@ -49,11 +48,13 @@ export const signOutController = async (req: Request, res: Response) => {
 export const registerController = async (req: Request, res: Response) => {
   const { fullName, email, password } = req.body;
 
-  const data = await createUser({
+  const data = await createUserService({
     fullName,
     email,
     password,
   });
+
+  if (!data) throw new BadRequestError("User exists");
 
   // Generate the JWT and attach it to the req session object
   generateJWT(req, { id: `${data.id}`, email: data.email });
