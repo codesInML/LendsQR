@@ -10,26 +10,26 @@ import Logger from "../logger";
 export const loginController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const user = await findUser(email);
+  const user = (await findUser(email))[0];
 
-  // if (!user) throw new BadRequestError("Invalid credentials");
+  if (!user) throw new BadRequestError("Invalid credentials");
 
-  // const passwordMatch = await Password.comparePassword(
-  //   password,
-  //   user?.password!
-  // );
+  const passwordMatch = await Password.comparePassword(
+    password,
+    user?.password!
+  );
 
-  // if (!passwordMatch) throw new BadRequestError("Invalid credentials");
+  if (!passwordMatch) throw new BadRequestError("Invalid credentials");
 
-  // // After providing valid credentials
-  // // Generate the JWT and attach it to the req session object
-  // generateJWT(req, {
-  //   id: user.id,
-  //   email: user.email,
-  // });
+  // After providing valid credentials
+  // Generate the JWT and attach it to the req session object
+  generateJWT(req, {
+    id: user.id,
+    email: user.email,
+  });
 
-  // // remove password from the user object
-  // delete user.password;
+  // remove password from the user object
+  delete user.password;
 
   return successResponse(res, StatusCodes.OK, user);
 };
@@ -56,7 +56,7 @@ export const registerController = async (req: Request, res: Response) => {
   });
 
   // Generate the JWT and attach it to the req session object
-  // generateJWT(req, { id: data.id, email: data.email });
+  generateJWT(req, { id: `${data.id}`, email: data.email });
 
   return successResponse(res, StatusCodes.CREATED, data);
 };

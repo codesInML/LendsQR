@@ -4,15 +4,16 @@ import { Password } from "../helpers";
 
 export const createUser = async (data: any) => {
   const password = await Password.toHash(data.password);
-  const user = knex("user").insert({
+  const [id] = await knex("user").insert({
     fullName: data.fullName,
     email: data.email,
     password,
   });
 
-  return user;
+  return { id, fullName: data.fullName, email: data.email };
 };
 
 export const findUser = async (email: string) => {
-  return;
+  const user = await knex("user").select("*").where({ email });
+  return user;
 };
