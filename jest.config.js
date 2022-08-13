@@ -5,5 +5,5 @@ module.exports = {
   testMatch: ["**/**/*.test.ts"],
   verbose: false,
   forceExit: true,
-  setupFilesAfterEnv: ["./src/mocks.ts"],
+  detectOpenHandles: true,
 };

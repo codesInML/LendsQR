@@ -1,5 +1,11 @@
-import knex from "knex";
-import Logger from "../logger";
+import knex, { Knex } from "knex";
 const knexfile = require("../knexfile");
 
-export default knex(knexfile);
+let db: Knex;
+if (process.env.NODE_ENV === "test") {
+  db = knex(knexfile.test);
+} else {
+  db = knex(knexfile.development);
+}
+
+export default db;

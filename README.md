@@ -1,4 +1,5 @@
 # LendsQR API
+Welcome to the LendsQR API, please find the document
 
 ##### To start the development environment run
 

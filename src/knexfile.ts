@@ -7,19 +7,30 @@ import path from "path";
  */
 
 module.exports = {
-  client: "mysql",
-  connection: {
-    host: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_NAME,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
+  development: {
+    client: "mysql",
+    connection: {
+      host: process.env.DATABASE_HOST,
+      database: process.env.DATABASE_NAME,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      tableName: "lendsqr_migrations",
+      directory: path.resolve(__dirname, "db", "migrations"),
+    },
   },
-  pool: {
-    min: 2,
-    max: 10,
-  },
-  migrations: {
-    tableName: "lendsqr_migrations",
-    directory: path.resolve(__dirname, "db", "migrations"),
+  test: {
+    client: "sqlite3",
+    connection: ":memory:",
+    useNullAsDefault: true,
+    migrations: {
+      tableName: "lendsqr_migrations",
+      directory: path.resolve(__dirname, "db", "migrations"),
+    },
   },
 };
