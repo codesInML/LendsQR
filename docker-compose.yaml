@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - lendsqr-api
+
+  lendsqr-api:
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: lendsqr-api
+    restart: always

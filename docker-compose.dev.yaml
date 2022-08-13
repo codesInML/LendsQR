@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  lendsqr-api:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./:/app
+      - lendsqr_ignore:/app/node_modules/
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+volumes:
+  lendsqr_ignore:

@@ -1,0 +1,28 @@
+# current LTS
+FROM node:16.16.0-alpine
+
+WORKDIR /app
+
+# COPY package.json and package-lock.json files
+COPY package.json ./
+
+ARG NODE_ENV
+RUN if [ "$NODE_ENV" = "development" ]; \
+    then npm install; \
+    else npm install --only=production; \
+    fi
+
+# COPY tsconfig.json file
+COPY tsconfig.json ./
+
+# COPY
+COPY . .
+
+# COPY ENV variable
+COPY .env ./
+
+# Run and expose the server on port 3000
+EXPOSE 8081
+
+# A command to start the server
+CMD npm start
