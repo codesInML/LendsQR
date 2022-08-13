@@ -25,3 +25,23 @@ export const fundAccountSchema = () => {
       .withMessage("please provide an amount"),
   ];
 };
+
+export const transferFundSchema = () => {
+  return [
+    body("amount")
+      .isNumeric()
+      .withMessage("amount must be numeric")
+      .notEmpty()
+      .withMessage("please provide an amount"),
+    body("recipientAccount")
+      .notEmpty()
+      .withMessage("please provide recipient account number")
+      .isNumeric()
+      .withMessage("invalid account number"),
+    body("passcode")
+      .notEmpty()
+      .withMessage("please provide your passcode")
+      .isNumeric()
+      .withMessage("invalid passcode"),
+  ];
+};
