@@ -6,6 +6,7 @@ import {
   createAccountService,
   fundAccountService,
   getAccountService,
+  transferFundService,
 } from "../services";
 
 export const createAccountController = async (req: Request, res: Response) => {
@@ -42,5 +43,17 @@ export const fundAccountController = async (req: Request, res: Response) => {
 };
 
 export const transferFundController = async (req: Request, res: Response) => {
-  return successResponse(res, StatusCodes.CREATED);
+  const { passcode, recipientAccount, amount } = req.body;
+  const account = await transferFundService({
+    passcode: `${passcode}`,
+    accountNumber: `${recipientAccount}`,
+    amount: +amount,
+    userID: req.currentUser?.id!,
+  });
+
+  if (!account) throw new BadRequestError("An error occurred, try again later");
+
+  if (typeof account == "string") throw new BadRequestError(account);
+
+  return successResponse(res, StatusCodes.CREATED, account);
 };

@@ -6,4 +6,5 @@ export * from "./success-response";
 export enum Model {
   user = "user",
   account = "account",
+  transaction = "transaction",
 }

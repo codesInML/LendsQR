@@ -2,6 +2,7 @@ import knex from "../db";
 import { Model, Password } from "../helpers";
 import { customAlphabet } from "nanoid";
 import Logger from "../logger";
+import { BadRequestError } from "../errors";
 
 const nanoid = customAlphabet("0123456789", 10);
 
@@ -63,6 +64,79 @@ export const getAccountService = async (userID: string) => {
       await knex(Model.account).select("*").where({ userID })
     )[0];
     return account;
+  } catch (error) {
+    Logger.error(error);
+    return null;
+  }
+};
+
+export const transferFundService = async (data: {
+  passcode: string;
+  accountNumber: string;
+  amount: number;
+  userID: string;
+}) => {
+  try {
+    const account: AccountData = (
+      await knex(Model.account).select("*").where({ userID: data.userID })
+    )[0];
+
+    // check if the sender has sufficient balance
+    if (!account || +account.balance < data.amount)
+      return "Insufficient balance";
+    if (account.accountNumber == data.accountNumber)
+      return "Cannot transfer to yourself";
+
+    // check if passcode match
+    const passcodeMatch = await Password.comparePassword(
+      data.passcode,
+      account.passcode!
+    );
+
+    if (!passcodeMatch) return "Invalid passcode";
+
+    // get recipient account
+    const recipientAccount: AccountData = (
+      await knex(Model.account)
+        .select("*")
+        .where({ accountNumber: data.accountNumber })
+    )[0];
+
+    // check if it's the same currency
+    if (account.currency !== recipientAccount.currency)
+      return "Can only send to an account with the same currency";
+
+    await knex
+      .transaction(function (t) {
+        return knex(Model.account)
+          .transacting(t)
+          .where({ userID: +data.userID })
+          .update({ balance: `${+account.balance - data.amount}` })
+          .then(function () {
+            return t(Model.account)
+              .where({ accountNumber: data.accountNumber })
+              .update({
+                balance: `${+recipientAccount.balance + data.amount}`,
+              });
+          })
+          .then(function () {
+            return t(Model.transaction).insert({
+              senderID: `${account.userID}`,
+              recipientID: `${recipientAccount.userID}`,
+              amount: data.amount,
+            });
+          })
+          .then(t.commit)
+          .catch(t.rollback);
+      })
+      .then(function () {
+        Logger.info("Transaction completed");
+      })
+      .catch(function (e) {
+        Logger.error("It failed");
+        throw e;
+      });
+    return { transfer: "success" };
   } catch (error) {
     Logger.error(error);
     return null;
