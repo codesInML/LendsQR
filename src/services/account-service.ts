@@ -70,6 +70,38 @@ export const getAccountService = async (userID: string) => {
   }
 };
 
+export const withdrawFundService = async (
+  amount: number,
+  passcode: string,
+  userID: string
+) => {
+  try {
+    const account: AccountData = (
+      await knex(Model.account).select("*").where({ userID })
+    )[0];
+
+    // check if the sender has sufficient balance
+    if (!account || +account.balance < amount) return "Insufficient balance";
+
+    // check if passcode match
+    const passcodeMatch = await Password.comparePassword(
+      passcode,
+      account.passcode!
+    );
+
+    if (!passcodeMatch) return "Invalid passcode";
+
+    const toDeduct = +account.balance - amount;
+
+    return await knex(Model.account)
+      .where({ userID })
+      .update({ balance: `${toDeduct}` });
+  } catch (error) {
+    Logger.error(error);
+    return null;
+  }
+};
+
 export const transferFundService = async (data: {
   passcode: string;
   accountNumber: string;
@@ -106,6 +138,7 @@ export const transferFundService = async (data: {
     if (account.currency !== recipientAccount.currency)
       return "Can only send to an account with the same currency";
 
+    //   using SQL transaction to perform the fund transfer
     await knex
       .transaction(function (t) {
         return knex(Model.account)
@@ -136,7 +169,7 @@ export const transferFundService = async (data: {
         Logger.error("It failed");
         throw e;
       });
-    return { transfer: "success" };
+    return { transfer: "Completed" };
   } catch (error) {
     Logger.error(error);
     return null;

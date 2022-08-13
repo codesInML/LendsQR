@@ -4,6 +4,7 @@ import {
   fundAccountController,
   getAccountController,
   transferFundController,
+  withdrawFundController,
 } from "../controllers";
 import { validateRequestMiddleware } from "../helpers";
 import { currentUserMiddleware, requireAuthMiddleware } from "../middleware";
@@ -11,6 +12,7 @@ import {
   createAccountSchema,
   fundAccountSchema,
   transferFundSchema,
+  withdrawFundSchema,
 } from "../schema";
 
 const router = Router();
@@ -36,6 +38,14 @@ router
     transferFundSchema(),
     validateRequestMiddleware,
     transferFundController
+  );
+
+router
+  .route("/withdraw")
+  .post(
+    withdrawFundSchema(),
+    validateRequestMiddleware,
+    withdrawFundController
   );
 
 export { router as accountRoute };
