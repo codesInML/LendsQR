@@ -30,7 +30,7 @@ describe("Fund an account", () => {
   it("should fund a user's account", async () => {
     const cookie = user.get("Set-Cookie");
 
-    const response = await request
+    await request
       .post(`/api/v1/account`)
       .send({
         currency: "USD",

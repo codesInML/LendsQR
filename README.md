@@ -1,5 +1,6 @@
 # LendsQR API
 Welcome to the LendsQR API, please find the document
+View live API [here](https://ifeoluwa-lendsqr-api.herokuapp.com/)
 
 ##### To start the development environment run
 
