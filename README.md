@@ -5,7 +5,9 @@ The entire application is contained within the `index.tsx` file which is in the 
 ## Installation
 Make sure you have docker and node installed on your pc, then run
 
+```shell
     npm i
+```
 
 to install the package dependencies. Also provide the `.env` file in the root directory as stated in `.env.example` file.
 
@@ -14,28 +16,39 @@ Make sure docker has started before running any of the commands below.
 
 ###### To start the development environment run
 
-    make lendsqr-up-build
+```shell
+    docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d --build
+```
 
 ###### To stop the development environment run
 
-    make lendsqr-down
+```shell
+    docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml down
+```
 
 ###### To start a previously stopped environment run
 
-    make lendsqr-up
-
+```shell
+    docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d
+```
 
 ###### To build the docker images for production run
 
-    make lendsqr-prod-build
+```shell
+    docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml build
+```
 
 ###### To view lendsQR logs run
 
-    make lendsqr-logs
+```shell
+    docker logs -f lendsqr-api
+```
 
 ###### To interact with lendsQR CLI run
 
-    make lendsqr-cli
+```shell
+    docker exec -it lendsqr-api /bin/sh
+```
 
 After you've started the application, visit the endpoint below to make sure its running properly
 
@@ -43,20 +56,26 @@ After you've started the application, visit the endpoint below to make sure its 
 
 You should get the message below
 
+```json
     {
         "message": "Welcome to LendsQR api 🔥🔥🔥"
     }
+```
 
 The application **nginx** which is listening on port **80**
 
 ## Run migration
 To create an up migrations
 
+```shell
     npm run knex:migrate
+```
 
 To create a down migration
 
+```shell
     npm run knex:rollback
+```
 
 ## Run the tests
 The test uses an `in memory database` for sqlite3, hence making the tests extremely fast.
