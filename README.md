@@ -1,5 +1,5 @@
 # LendsQR API
-Welcome to the LendsQR API, you can view the live API [here](https://ifeoluwa-lendsqr-api.herokuapp.com/)
+Welcome to the LendsQR API, you can view the live API [here](https://ifeoluwa-lendsqr-api.herokuapp.com/).
 The entire application is contained within the `index.tsx` file which is in the `src` directory.
 
 The application is in a docker container with node version `node:16.16.0-alpine` which is the LTS at the writing of this API.
