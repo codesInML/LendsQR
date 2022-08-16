@@ -50,7 +50,7 @@ Make sure docker has started before running any of the commands below.
     docker exec -it lendsqr-api /bin/sh
 ```
 
-The application is behind an **nginx** proxy server which is listening on port **80**
+The application is behind an **nginx** proxy server which is listening on port **80**.
 After you've started the application, visit the endpoint below to make sure its running properly
 
     http://localhost
