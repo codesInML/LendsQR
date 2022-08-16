@@ -288,7 +288,7 @@ Transfer uses transaction to ensure that the entire transfer workflow is seen th
 
 ### Request
 
-`GET /account/transfer`
+`POST /account/transfer`
 
 ```json
 {
@@ -313,7 +313,7 @@ Transfer uses transaction to ensure that the entire transfer workflow is seen th
 
 ### Request
 
-`PUT /account/withdraw`
+`POST /account/withdraw`
 
 ```json
 {
