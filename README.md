@@ -62,7 +62,7 @@ You should get the message below
     }
 ```
 
-The application **nginx** which is listening on port **80**
+The application is behind an **nginx** proxy server which is listening on port **80**
 
 ## Run migration
 To create an up migrations
