@@ -14,7 +14,7 @@ export const createUserService = async (data: {
       password,
     });
 
-    return { id, ...data };
+    return { id, fullName: data.fullName, email: data.email };
   } catch (error) {
     return null;
   }
