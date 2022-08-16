@@ -91,6 +91,9 @@ The REST API to the *lendsqr app* is described below.
 The base URL is
 
     http://localhost/api/v1
+The base URL for the live version is
+
+    https://ifeoluwa-lendsqr-api.herokuapp.com/api/v1
 
 ## Register a User
 
