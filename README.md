@@ -78,14 +78,17 @@ The base URL is
 
 `POST /auth/register`
 
+```json
     {
         "email": "janetdoe@gmail.com",
         "fullName": "Janet Doe",
         "password": "password"
     }
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "data": {
@@ -94,6 +97,7 @@ The base URL is
             "email": "janetdoe@gmail.com"
         }
     }
+```
 
 ## Login a user
 
@@ -101,13 +105,16 @@ The base URL is
 
 `POST /auth/signin`
 
+```json
     {
         "email": "janetdoe@gmail.com",
         "password": "password"
     }
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "data": {
@@ -118,6 +125,8 @@ The base URL is
             "updatedAt": "2022-08-16T03:51:18.000Z"
         }
     }
+```
+
 
 ## Logout a user
 
@@ -125,16 +134,20 @@ The base URL is
 
 `GET /auth/signout`
 
+```json
     {}
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "data": {
             "message": "Logged out successfully"
         }
     }
+```
 
 ## Get the current user
 
@@ -142,10 +155,13 @@ The base URL is
 
 `GET auth/current-user`
 
+```json
     {}
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "currentUser": {
@@ -154,6 +170,7 @@ The base URL is
             "iat": 1660638949
         }
     }
+```
 
 ## Create an account
 - accountType can either be **Savings** or **Current**
@@ -164,14 +181,17 @@ The base URL is
 
 `POST /account`
 
+```json
     {
         "accountType": "Savings",
         "currency": "USD",
         "passcode": 1234
     }
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "data": {
@@ -185,6 +205,7 @@ The base URL is
             "userID": 17
         }
     }
+```
 
 ## Fund an account
 
@@ -192,18 +213,22 @@ The base URL is
 
 `POST /account/fund`
 
+```json
     {
         "amount": "500"
     }
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "data": {
             "message": "Account has been funded"
         }
     }
+```
 
 ## Change a Thing's state
 
@@ -211,10 +236,13 @@ The base URL is
 
 `GET /account`
 
+```json
     {}
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "data": {
@@ -228,6 +256,7 @@ The base URL is
             "userID": 17
         }
     }
+```
 
 ## Transfer fund
 Transfer uses transaction to ensure that the entire transfer workflow is seen through till the end. Hence, all changes are reverted if an error occurred at any point during the transfer process.
@@ -236,20 +265,24 @@ Transfer uses transaction to ensure that the entire transfer workflow is seen th
 
 `GET /account/transfer`
 
+```json
     {
         "amount": "100",
         "recipientAccount": "5317717302",
         "passcode": "1234"
     }
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "data": {
             "transfer": "Completed"
         }
     }
+```
 
 ## Withdraw fund
 
@@ -257,19 +290,23 @@ Transfer uses transaction to ensure that the entire transfer workflow is seen th
 
 `PUT /account/withdraw`
 
+```json
     {
         "amount": 2000,
         "passcode": 1234
     }
+```
 
 ### Response
 
+```json
     {
         "message": "success",
         "data": {
             "withdrawal": "Completed"
         }
     }
+```
 
 > Custom errors are thrown for each endpoint depending on the validation that has failed
 
