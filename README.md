@@ -255,7 +255,7 @@ The base URL for the live version is
 }
 ```
 
-## Change a Thing's state
+## Get a user's account
 
 ### Request
 
